@@ -95,7 +95,7 @@ public class CarrouselComponent : MonoBehaviour
             case direction.LEFT:
 
                 itemToMove = carrouselItems.First();
-                newIndex = carrouselItems.Count ;
+                newIndex = carrouselItems.Count;
 
                 break;
             case direction.RIGHT:
@@ -141,12 +141,12 @@ public class CarrouselComponent : MonoBehaviour
 
     internal void CleanItems()
     {
-        if (carrouselItems.Count != 0) return;
-
         foreach (var item in carrouselItems)
         {
             Destroy(item.gameObject);
         }
+
+        carrouselItems.Clear();
     }
 
     #endregion

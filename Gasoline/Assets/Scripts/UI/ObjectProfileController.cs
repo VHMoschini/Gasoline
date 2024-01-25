@@ -6,6 +6,7 @@ using UnityEngine;
 public class ObjectProfileController : MonoBehaviour
 {
     [SerializeField] private List<ObjectProfile> objects = new List<ObjectProfile>();
+    [SerializeField] private bool canLoop = true;
 
     private int actualIndex = 0;
 
@@ -34,22 +35,29 @@ public class ObjectProfileController : MonoBehaviour
 
     public void IncrementObjProfile()
     {
-        actualIndex++;
 
-        if (actualIndex == objects.Count)
+        if (actualIndex + 1 == objects.Count)
         {
-            actualIndex = 0;
+            if (canLoop)
+                actualIndex = 0;
+        }
+        else
+        {
+            actualIndex++;
         }
 
         RefreshObjsProfile();
     }
     public void DecrementObjProfile()
     {
-        actualIndex--;
-
-        if (actualIndex < 0)
+        if (actualIndex - 1 < 0)
         {
-            actualIndex = objects.Count - 1;
+            if (canLoop)
+                actualIndex = objects.Count - 1;
+        }
+        else
+        {
+            actualIndex--;
         }
 
         RefreshObjsProfile();
