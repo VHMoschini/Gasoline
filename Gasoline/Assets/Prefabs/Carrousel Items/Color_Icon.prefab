@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 75170031032768636}
   - component: {fileID: 5795489311758207206}
   m_Layer: 5
-  m_Name: Carrousel_Item
+  m_Name: Color_Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

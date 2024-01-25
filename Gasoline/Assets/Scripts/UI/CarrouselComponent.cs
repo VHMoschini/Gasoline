@@ -18,10 +18,12 @@ public class CarrouselComponent : MonoBehaviour
     [SerializeField] private List<CarrouselItem> carrouselItems;
     [SerializeField] private GameObject item;
     [SerializeField] private RectTransform[] points;
+    [SerializeField] private PoolInstantiator instantiator;
 
     [SerializeField] internal List<Item> items;
-    private int selectedPointIndex = 6;
     private int selectedItemIndex;
+
+
 
     #endregion
 
@@ -60,7 +62,10 @@ public class CarrouselComponent : MonoBehaviour
 
         foreach (var i in points)
         {
-            var _item = Instantiate(item, i.position, i.rotation, transform);
+
+            Transform parent = points[0].transform.parent;
+
+            var _item = Instantiate(item, i.position, i.rotation, parent);
             _item.transform.localScale = i.localScale;
 
             carrouselItems.Add(_item.GetComponent<CarrouselItem>());
@@ -69,6 +74,8 @@ public class CarrouselComponent : MonoBehaviour
 
         InitializeItems(items, carrouselItems);
         selectedItemIndex = carrouselItems.Count / 2;
+
+        instantiator.instantiate(GetSelectedItem().data.showcaseObj);
     }
 
     private void InitializeItems(List<Item> _items, List<CarrouselItem> _carrouselItems)
@@ -119,22 +126,14 @@ public class CarrouselComponent : MonoBehaviour
                 carrouselItems[i].manipulateItem(points[i]);
             }
         }
-    }
 
-    private int ArrayLoopIncrement(int actualIndex, int increment, int maxIndex)
-    {
-        int newIndex = actualIndex + increment;
-
-        if (newIndex < 0) return maxIndex;
-        else if (newIndex > maxIndex) return 0;
-
-        return newIndex;
+        instantiator.instantiate(GetSelectedItem().data.showcaseObj);
     }
 
     internal Item GetSelectedItem()
     {
         var item = carrouselItems[selectedItemIndex];
-        item.ChooseItem();
+        //item.ChooseItem();
 
         return item.itemConfig;
     }

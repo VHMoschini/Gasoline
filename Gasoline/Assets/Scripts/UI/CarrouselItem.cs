@@ -50,7 +50,8 @@ public class CarrouselItem : MonoBehaviour
     {
         itemConfig = config;
 
-        itemBaseImage.color = config.data.color;
+        if (config.data.isColor)
+            itemBaseImage.color = config.data.color;
 
         //itemName.text = config.data.itemName;
 

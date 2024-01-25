@@ -6,17 +6,14 @@ using UnityEngine;
 public class ItemData : ScriptableObject
 {
     [Space(10)]
-    [SerializeField] internal string itemName;
-    [SerializeField] internal float itemPrice;
-
-    [Space(10)]
-    [SerializeField] internal Sprite itemBaseImage;
-    [SerializeField] internal Sprite itemAuxiliarImage;
-
-    [Space(10)]
-    [SerializeField] internal AnimatorOverrideController anim;
-
-    [Space(10)]
     [SerializeField] internal Color color;
+
+    [Space(10)]
+    [SerializeField] internal bool isColor;
+    [SerializeField] internal bool isIcon;
+
+    [Space(10)]
+    [SerializeField] internal GameObject showcaseObj;
+    [SerializeField] internal GameObject carObject;
 
 }

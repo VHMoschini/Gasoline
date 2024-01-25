@@ -46,7 +46,7 @@ public class Closet : MonoBehaviour
 
     private void ChangeClothes(Item item)
     {
-        animationController.runtimeAnimatorController = item.data.anim;
+        //animationController.runtimeAnimatorController = item.data.anim;
     }
 
     #endregion

@@ -18,3 +18,5 @@ MonoBehaviour:
   itemAuxiliarImage: {fileID: 0}
   anim: {fileID: 0}
   color: {r: 1, g: 0.5557914, b: 0, a: 1}
+  isColor: 1
+  isIcon: 0
