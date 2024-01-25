@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45c6a0d0999b8e54ebc093b594154e72, type: 3}
+  m_Name: Color_Violet
+  m_EditorClassIdentifier: 
+  itemName: 
+  itemPrice: 0
+  itemBaseImage: {fileID: 0}
+  itemAuxiliarImage: {fileID: 0}
+  anim: {fileID: 0}
+  color: {r: 0.9254902, g: 0.047058836, b: 0.41723365, a: 1}
