@@ -15,5 +15,6 @@ MonoBehaviour:
   color: {r: 0, g: 0, b: 0, a: 0}
   isColor: 0
   isIcon: 1
+  colorMaterial: {fileID: 0}
   showcaseObj: {fileID: 6153440969776337476, guid: 5a9349098755de14aa6a8f839247cf24, type: 3}
-  carObject: {fileID: 0}
+  carObject: {fileID: 1704942709942788182, guid: ba5654c3fbc3ac241b8381ba50e23c69, type: 3}

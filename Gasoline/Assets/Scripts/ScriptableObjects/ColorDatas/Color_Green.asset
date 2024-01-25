@@ -12,11 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45c6a0d0999b8e54ebc093b594154e72, type: 3}
   m_Name: Color_Green
   m_EditorClassIdentifier: 
-  itemName: 
-  itemPrice: 0
-  itemBaseImage: {fileID: 0}
-  itemAuxiliarImage: {fileID: 0}
-  anim: {fileID: 0}
   color: {r: 0.4336499, g: 0.6415094, b: 0.099857606, a: 1}
   isColor: 1
   isIcon: 0
+  colorMaterial: {fileID: 2100000, guid: ed9ba4819a2574d499bb8fc744d0f847, type: 2}
+  showcaseObj: {fileID: 0}
+  carObject: {fileID: 0}

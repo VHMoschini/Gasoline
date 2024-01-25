@@ -19,8 +19,10 @@ public class CarrouselComponent : MonoBehaviour
     [SerializeField] private GameObject item;
     [SerializeField] private RectTransform[] points;
     [SerializeField] private PoolInstantiator instantiator;
+    [SerializeField] private MeshRenderer renderer;
 
     [SerializeField] internal List<Item> items;
+    [SerializeField] internal bool isStore = false;
     private int selectedItemIndex;
 
 
@@ -75,7 +77,9 @@ public class CarrouselComponent : MonoBehaviour
         InitializeItems(items, carrouselItems);
         selectedItemIndex = carrouselItems.Count / 2;
 
-        instantiator.instantiate(GetSelectedItem().data.showcaseObj);
+        if (GetSelectedItem().data.showcaseObj && isStore)
+            instantiator.instantiate(GetSelectedItem().data.showcaseObj);
+
     }
 
     private void InitializeItems(List<Item> _items, List<CarrouselItem> _carrouselItems)
@@ -127,7 +131,16 @@ public class CarrouselComponent : MonoBehaviour
             }
         }
 
-        instantiator.instantiate(GetSelectedItem().data.showcaseObj);
+        if (GetSelectedItem().data.showcaseObj && isStore)
+            instantiator.instantiate(GetSelectedItem().data.showcaseObj);
+
+        if (GetSelectedItem().data.carObject && !isStore)
+            instantiator.instantiate(GetSelectedItem().data.carObject);
+
+        if (GetSelectedItem().data.colorMaterial && GetSelectedItem().data.isColor)
+        {
+            renderer.material = GetSelectedItem().data.colorMaterial;
+        }
     }
 
     internal Item GetSelectedItem()

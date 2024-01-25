@@ -11,6 +11,7 @@ public class ItemData : ScriptableObject
     [Space(10)]
     [SerializeField] internal bool isColor;
     [SerializeField] internal bool isIcon;
+    [SerializeField] internal Material colorMaterial;
 
     [Space(10)]
     [SerializeField] internal GameObject showcaseObj;
