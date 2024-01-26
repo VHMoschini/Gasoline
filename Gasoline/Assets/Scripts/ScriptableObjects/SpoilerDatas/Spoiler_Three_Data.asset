@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45c6a0d0999b8e54ebc093b594154e72, type: 3}
   m_Name: Spoiler_Three_Data
   m_EditorClassIdentifier: 
+  type: 2
   color: {r: 0, g: 0, b: 0, a: 0}
   isColor: 0
   isIcon: 1

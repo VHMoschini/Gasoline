@@ -53,19 +53,7 @@ public class CarrouselItem : MonoBehaviour
         if (config.data.isColor)
             itemBaseImage.color = config.data.color;
 
-        //itemName.text = config.data.itemName;
 
-        //if (config.acquired)
-        //{
-        //    ChooseItem();
-        //}
-        //else
-        //{
-        //    itemPrice.text = "$" + config.data.itemPrice.ToString();
-        //}
-
-        //itemBaseImage.sprite = config.data.itemBaseImage;
-        //itemAuxiliarImage.sprite = config.data.itemAuxiliarImage;
 
     }
 

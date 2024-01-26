@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CarrouselComponent : MonoBehaviour
@@ -21,6 +22,8 @@ public class CarrouselComponent : MonoBehaviour
     [SerializeField] private PoolInstantiator instantiator;
     [SerializeField] private MeshRenderer renderer;
 
+    [Space(10)]
+    [SerializeField] private GameObject signTag;
     [SerializeField] internal List<Item> items;
     [SerializeField] internal bool isStore = false;
     private int selectedItemIndex;
@@ -41,14 +44,23 @@ public class CarrouselComponent : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
         {
-            //RollItems(1);
-
             RollItems(direction.LEFT);
         }
         if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
         {
-            //RollItems(-1);
             RollItems(direction.RIGHT);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.End)  && isStore)
+        {
+            int i = items.FindIndex(x => x.data == GetSelectedItem().data);
+            Item item = new Item { data = items[i].data, acquired = true };
+            items[i] = item;
+
+            PlayerDatabase.AddInventory(items[i].data);
+
+            signTag.SetActive(true);
+            InitializeItems(items, carrouselItems);
 
         }
     }
@@ -62,9 +74,17 @@ public class CarrouselComponent : MonoBehaviour
         CleanItems();
         carrouselItems = new List<CarrouselItem>();
 
+        if (!isStore && !items[0].data.isColor)
+        {
+            var itemDatas = PlayerDatabase.GetItemsByType(items[0].data.type);
+            if (itemDatas.Count == 0)
+            {
+                return;
+            }
+        }
+
         foreach (var i in points)
         {
-
             Transform parent = points[0].transform.parent;
 
             var _item = Instantiate(item, i.position, i.rotation, parent);
@@ -75,28 +95,50 @@ public class CarrouselComponent : MonoBehaviour
         }
 
         InitializeItems(items, carrouselItems);
-        selectedItemIndex = carrouselItems.Count / 2;
+        selectedItemIndex = points.Length / 2;
 
-        if (GetSelectedItem().data.showcaseObj && isStore)
-            instantiator.instantiate(GetSelectedItem().data.showcaseObj);
+        if (isStore)
+        {
+            var i = GetSelectedItem();
+            instantiator.instantiate(i.data.showcaseObj);
+
+            signTag.SetActive(i.acquired);
+        }
 
     }
 
     private void InitializeItems(List<Item> _items, List<CarrouselItem> _carrouselItems)
     {
+        var itemsToInitialize = _items;
+
+        if (!isStore && !_items[0].data.isColor)
+        {
+            var itemDatas = PlayerDatabase.GetItemsByType(items[0].data.type);
+
+            if (itemDatas == null)
+            {
+                CleanItems();
+                carrouselItems = null;
+                return;
+            }
+
+            itemsToInitialize = itemDatas.Select(x => new Item() { data = x }).ToList();
+        }
+
         int itemIndex = 0;
 
         foreach (var item in _carrouselItems)
         {
-            if (itemIndex == _items.Count) itemIndex = 0;
+            if (itemIndex == itemsToInitialize.Count) itemIndex = 0;
 
-            item.initializeItem(_items[itemIndex]);
+            item.initializeItem(itemsToInitialize[itemIndex]);
             itemIndex++;
         }
     }
 
     private void RollItems(direction _direction)
     {
+        if (carrouselItems.Count == 0) return;
 
         CarrouselItem itemToMove = null;
         int newIndex = 0;
@@ -132,27 +174,37 @@ public class CarrouselComponent : MonoBehaviour
         }
 
         if (GetSelectedItem().data.showcaseObj && isStore)
-            instantiator.instantiate(GetSelectedItem().data.showcaseObj);
+        {
+            var i = GetSelectedItem();
+            instantiator.instantiate(i.data.showcaseObj);
+
+            signTag.SetActive(i.acquired);
+
+        }
 
         if (GetSelectedItem().data.carObject && !isStore)
+        {
             instantiator.instantiate(GetSelectedItem().data.carObject);
+            PlayerDatabase.EquipItem(GetSelectedItem().data);
+        }
 
         if (GetSelectedItem().data.colorMaterial && GetSelectedItem().data.isColor)
         {
             renderer.material = GetSelectedItem().data.colorMaterial;
+            PlayerDatabase.EquipItem(GetSelectedItem().data);
         }
     }
 
     internal Item GetSelectedItem()
     {
         var item = carrouselItems[selectedItemIndex];
-        //item.ChooseItem();
-
         return item.itemConfig;
     }
 
     internal void CleanItems()
     {
+        if (carrouselItems == null) return;
+
         foreach (var item in carrouselItems)
         {
             Destroy(item.gameObject);
