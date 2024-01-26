@@ -44,6 +44,13 @@ public class PlayerDatabase : ScriptableObject
                 .ToList();
     }
 
+    public static ItemData GetEquipedItemsByType(ItemType type)
+    {
+        var items = equipedItems.Find(a => a.itemType == type);
+
+        return items.data;               
+    }
+
 }
 
 
