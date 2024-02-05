@@ -53,8 +53,6 @@ public class CarrouselItem : MonoBehaviour
         if (config.data.isColor)
             itemBaseImage.color = config.data.color;
 
-
-
     }
 
     internal void manipulateItem(RectTransform _transform, bool _interpolation = true)

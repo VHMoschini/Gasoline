@@ -8,6 +8,7 @@ public class SkidMarks : MonoBehaviour
     private ParticleSystem smoke;
     public CarPhysics carController;
     float fadeOutSpeed;
+
     private void Awake()
     {
         smoke = GetComponent<ParticleSystem>();

@@ -48,6 +48,12 @@ public class PlayerDatabase : ScriptableObject
     {
         var items = equipedItems.Find(a => a.itemType == type);
 
+
+        if (items.data == null)
+        {
+            return null;
+        }
+
         return items.data;               
     }
 
