@@ -19,7 +19,7 @@ public class CarPhysics : MonoBehaviour
     public RaycastHit hit;
     public AnimationCurve frictionCurve;
     public AnimationCurve turnCurve;
-    public PhysicMaterial frictionMaterial;
+    public PhysicsMaterial frictionMaterial;
     [Header("Visuals")]
     public Transform BodyMesh;
     public Transform[] FrontWheels = new Transform[2];
@@ -85,7 +85,7 @@ public class CarPhysics : MonoBehaviour
 
     void FixedUpdate()
     {
-        carVelocity = carBody.transform.InverseTransformDirection(carBody.velocity);
+        carVelocity = carBody.transform.InverseTransformDirection(carBody.linearVelocity);
 
         if (Mathf.Abs(carVelocity.x) > 0)
         {
@@ -131,7 +131,7 @@ public class CarPhysics : MonoBehaviour
             {
                 if (Mathf.Abs(verticalInput) > 0.1f && Input.GetAxis("Jump") < 0.1f)
                 {
-                    rb.velocity = Vector3.Lerp(rb.velocity, carBody.transform.forward * verticalInput * MaxSpeed, accelaration / 10 * Time.deltaTime);
+                    rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, carBody.transform.forward * verticalInput * MaxSpeed, accelaration / 10 * Time.deltaTime);
                 }
             }
 
@@ -149,7 +149,7 @@ public class CarPhysics : MonoBehaviour
             }
 
             carBody.MoveRotation(Quaternion.Slerp(carBody.rotation, Quaternion.FromToRotation(carBody.transform.up, Vector3.up) * carBody.transform.rotation, 0.02f));
-            rb.velocity = Vector3.Lerp(rb.velocity, rb.velocity + Vector3.down * gravity, Time.deltaTime * gravity);
+            rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, rb.linearVelocity + Vector3.down * gravity, Time.deltaTime * gravity);
         }
 
     }
