@@ -93,6 +93,7 @@ MonoBehaviour:
   joystickHandle: {fileID: 190350006411290595}
   handleRange: 50
   deadZone: 0.1
+  showDebugLogs: 1
 --- !u!1 &3602905522029578547
 GameObject:
   m_ObjectHideFlags: 0
@@ -110,7 +111,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1089276176421705515
 RectTransform:
   m_ObjectHideFlags: 0
@@ -129,7 +130,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 300, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8601922714089676972
 CanvasRenderer:
@@ -204,7 +205,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 80.4086, y: 80.4086}
+  m_SizeDelta: {x: 241.2258, y: 241.2258}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &915380893172135769
 CanvasRenderer:

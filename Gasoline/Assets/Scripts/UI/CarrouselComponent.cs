@@ -136,6 +136,18 @@ public class CarrouselComponent : MonoBehaviour
         }
     }
 
+    public void RollItemsPublic(bool toLeft)
+    {
+        if (toLeft)
+        {
+            RollItems(direction.LEFT);
+        }
+        else
+        {
+            RollItems(direction.RIGHT);
+        }
+    }
+
     private void RollItems(direction _direction)
     {
         if (carrouselItems.Count == 0) return;
