@@ -44,6 +44,9 @@ public class CarPhysics : MonoBehaviour
     private float radius, horizontalInput, verticalInput;
     private Vector3 origin;
     public bool canMove = false;
+    
+    [Header("Debug")]
+    public bool showDebugLogs = false;
 
     private void Start()
     {
@@ -52,14 +55,24 @@ public class CarPhysics : MonoBehaviour
         {
             Physics.defaultMaxAngularSpeed = 100;
         }
+        
+        if (showDebugLogs)
+            Debug.Log($"[CarPhysics] Iniciado - canMove: {canMove}");
     }
     private void Update()
     {
 
         if (canMove)
         {
-            horizontalInput = Input.GetAxis("Horizontal");
-            verticalInput = Input.GetAxis("Vertical");
+            // Usa InputManager para suportar tanto PC quanto Mobile
+            horizontalInput = InputManager.Instance.GetHorizontal();
+            verticalInput = InputManager.Instance.GetVertical();
+            
+            // Log apenas quando há input
+            if (showDebugLogs && (Mathf.Abs(horizontalInput) > 0.01f || Mathf.Abs(verticalInput) > 0.01f))
+            {
+                Debug.Log($"[CarPhysics] Input recebido - Horizontal: {horizontalInput:F2}, Vertical: {verticalInput:F2}");
+            }
         }
         Visuals();
         AudioManager();
@@ -81,6 +94,36 @@ public class CarPhysics : MonoBehaviour
     public void ToggleMovent()
     {
         canMove = !canMove;
+        if (showDebugLogs)
+            Debug.Log($"[CarPhysics] ToggleMovent chamado - canMove agora é: {canMove}");
+    }
+    
+    /// <summary>
+    /// Ativa o movimento do veículo (chamado por Timeline/Signals)
+    /// </summary>
+    public void EnableMovement()
+    {
+        canMove = true;
+        Debug.Log("[CarPhysics] EnableMovement chamado - Movimento ATIVADO");
+    }
+    
+    /// <summary>
+    /// Desativa o movimento do veículo
+    /// </summary>
+    public void DisableMovement()
+    {
+        canMove = false;
+        Debug.Log("[CarPhysics] DisableMovement chamado - Movimento DESATIVADO");
+    }
+    
+    /// <summary>
+    /// Define o estado de movimento diretamente
+    /// </summary>
+    public void SetCanMove(bool value)
+    {
+        canMove = value;
+        if (showDebugLogs)
+            Debug.Log($"[CarPhysics] SetCanMove chamado com valor: {value}");
     }
 
     void FixedUpdate()
@@ -109,7 +152,7 @@ public class CarPhysics : MonoBehaviour
             }
 
 
-            if (Input.GetAxis("Jump") > 0.1f)
+            if (InputManager.Instance.GetJump() > 0.1f)
             {
                 rb.constraints = RigidbodyConstraints.FreezeRotationX;
             }
@@ -129,7 +172,7 @@ public class CarPhysics : MonoBehaviour
             }
             else if (movementMode == MovementMode.Velocity)
             {
-                if (Mathf.Abs(verticalInput) > 0.1f && Input.GetAxis("Jump") < 0.1f)
+                if (Mathf.Abs(verticalInput) > 0.1f && InputManager.Instance.GetJump() < 0.1f)
                 {
                     rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, carBody.transform.forward * verticalInput * MaxSpeed, accelaration / 10 * Time.deltaTime);
                 }
