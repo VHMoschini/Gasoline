@@ -12,6 +12,9 @@ public class VirtualJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler,
     public float handleRange = 50f;
     public float deadZone = 0.1f;
     
+    [Tooltip("Trava o joystick em 8 direções (4 cardeais + 4 diagonais)")]
+    public bool snap8Directions = true;
+    
     [Header("Debug")]
     public bool showDebugLogs = true;
     
@@ -77,6 +80,12 @@ public class VirtualJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler,
             direction = Vector2.zero;
         }
         
+        // Se snap8Directions está ativo, trava nas 8 direções (cardeais + diagonais)
+        if (snap8Directions && direction.magnitude > 0)
+        {
+            direction = SnapTo8Directions(direction);
+        }
+        
         inputVector = direction;
         
         // Move o handle visualmente
@@ -102,6 +111,63 @@ public class VirtualJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler,
     private void SetJoystickVisibility(bool visible)
     {
         joystickBackground.gameObject.SetActive(visible);
+    }
+    
+    /// <summary>
+    /// Trava a direção em uma das 8 direções (4 cardeais + 4 diagonais)
+    /// baseado em qual está mais próximo
+    /// </summary>
+    private Vector2 SnapTo8Directions(Vector2 direction)
+    {
+        // Calcula o ângulo em graus
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        
+        // Normaliza o ângulo para 0-360
+        if (angle < 0) angle += 360f;
+        
+        // Determina qual das 8 direções está mais próxima
+        // Cada direção tem 45° de alcance (360° / 8 = 45°)
+        
+        if (angle >= 337.5f || angle < 22.5f)
+        {
+            // Direita (0°)
+            return Vector2.right;
+        }
+        else if (angle >= 22.5f && angle < 67.5f)
+        {
+            // Diagonal Direita-Cima (45°)
+            return new Vector2(1f, 1f).normalized;
+        }
+        else if (angle >= 67.5f && angle < 112.5f)
+        {
+            // Cima (90°)
+            return Vector2.up;
+        }
+        else if (angle >= 112.5f && angle < 157.5f)
+        {
+            // Diagonal Esquerda-Cima (135°)
+            return new Vector2(-1f, 1f).normalized;
+        }
+        else if (angle >= 157.5f && angle < 202.5f)
+        {
+            // Esquerda (180°)
+            return Vector2.left;
+        }
+        else if (angle >= 202.5f && angle < 247.5f)
+        {
+            // Diagonal Esquerda-Baixo (225°)
+            return new Vector2(-1f, -1f).normalized;
+        }
+        else if (angle >= 247.5f && angle < 292.5f)
+        {
+            // Baixo (270°)
+            return Vector2.down;
+        }
+        else
+        {
+            // Diagonal Direita-Baixo (315°)
+            return new Vector2(1f, -1f).normalized;
+        }
     }
     
     // Propriedades públicas para acessar os valores do input
